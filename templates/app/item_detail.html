@@ -1,0 +1,14 @@
+<!-- item_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Item Details</h2>
+  <p><strong>Name:</strong> {{ item.name }}</p>
+  <p><strong>Description:</strong> {{ item.description }}</p>
+  <a href="{% url 'item_list' %}">Back to Item List</a>
+  {% include 'app/partials/baseData.html' %}
+  {% include 'app/partials/land.html' %}
+  {% include 'app/partials/build.html' %}
+  {% include 'app/partials/person.html' %}
+
+{% endblock %}

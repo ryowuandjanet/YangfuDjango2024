@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<form enctype="multipart/form-data" class="container" method="post" id="product_form">
+  {% csrf_token %}
+  <!-- main form start --- in our case product form -->
+  <div class="card">
+    <div class="card-header card-header-secondary">
+      <h4 class="card-title">Add Products</h4>
+    </div>
+    {% for field in form %}
+      <div class="form-group card-body">
+        <label>{{field.label}}</label>
+        {% if field.field.required %}
+          <span style="color: red;" class="required">*</span>
+        {% endif %}
+    
+        {{field}}
+
+
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+   
+  {% with named_formsets.lands as formset %}  
+    {{ formset.management_form }}
+    <script type="text/html" id="lands-template">  
+      <tr id="lands-__prefix__" class= hide_all> 
+        {% for fields in formset.empty_form.hidden_fields %}
+          {{ fields }}
+        {% endfor %}
+    
+        {% for fields in formset.empty_form.visible_fields %}
+          <td>{{fields}}</td>
+        {% endfor %}
+      </tr>
+    </script>
+    <div class="table-responsive card mt-4">
+      <div class="card-header card-header-secondary">
+        <h4 class="card-title">新增地號</h4>
+      </div>
+      <table class="table card-body">
+        <thead class="text-secondary">
+          <th>地號 <span style="color: red;" class="required">*</span></th>
+          <th>謄本</th>
+          <th>地坪(平方公尺)</th>
+          <th>個人持分</th>
+          <th>所有持分</th>
+          <th>備註</th>
+          <th>刪除?</th>
+          <th>自訂刪除</th>
+        </thead>
+        <tbody id="item-lands">
+          {% for error in formset.non_form_errors %}
+            <span style="color: red">{{ error }}</span>
+          {% endfor %}
+          {% for formss in formset %}
+            {{ formss.management_form }}
+            <tr id="lands-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+              {{ formss.id }}
+              {% for field in formss.visible_fields %}
+                <td>
+                  {{field}}
+                  {% for error in field.errors %}
+                    <span style="color: red">{{ error }}</span>
+                  {% endfor %}
+                </td>
+              {% endfor %}
+                <!-- delete code -->
+              {% if formss.instance.pk %}
+                <td>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{formss.instance.pk}}">
+                      Delete
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">
+                                      Are You Sure You Want To Delete This?
+                                  </h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-footer">
+                                  <a href="{% url 'app:delete_land' formss.instance.pk %}" type="button" class="btn btn-primary">
+                                      Yes, Delete
+                                  </a>
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="#" id="add-land-button" class="btn btn-secondary add-lands">Add More</a> <!-- id="add-inlineformsetname-button" -->
+    </div>
+  {% endwith %}
+
+
+  {% with named_formsets.builds as formset %}
+    {{ formset.management_form }}
+    <script type="text/html" id="builds-template">  
+      <tr id="builds-__prefix__" class= hide_all>
+        {% for fields in formset.empty_form.hidden_fields %}
+          {{ fields }}
+        {% endfor %}
+    
+        {% for fields in formset.empty_form.visible_fields %}
+          <td>{{fields}}</td>
+        {% endfor %}
+      </tr>
+    </script>
+    <div class="table-responsive card mt-4">
+      <div class="card-header card-header-secondary">
+        <h4 class="card-title">新增建號</h4>
+      </div>
+      <table class="table card-header">
+        <thead class="text-secondary">
+          <th>建號 <span style="color: red;" class="required">*</span></th>
+          <th>謄本</th>
+          <th>建坪(平方公尺)</th>
+          <th>個人持分</th>
+          <th>所有持分</th>
+          <th>建物型</th>
+          <th>使用分區</th>
+          <th>備註</th>
+          <th>附屬建物用途</th>
+          <th>附屬建物面積</th>
+          <th>刪除?</th>
+          <th>自訂刪除</th>
+        </thead>
+        <tbody id="item-builds">  
+          {% for error in formset.non_form_errors %}
+            <span style="color: red">{{ error }}</span>
+          {% endfor %}
+          {% for formss in formset %}
+            {{ formss.management_form }}
+            <tr id="builds-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+              {{ formss.id }}
+              {% for field in formss.visible_fields %}
+                <td>
+                  {{field}}
+                  {% for error in field.errors %}
+                    <span style="color: red">{{ error }}</span>
+                  {% endfor %}
+                  
+                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                </td>
+              {% endfor %}
+
+
+              {% comment %} for delete {% endcomment %}
+              
+              {% if formss.instance.pk %}
+                <td>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{formss.instance.pk}}">
+                      Delete
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">
+                                      Are You Sure You Want To Delete This?
+                                  </h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-footer">
+                                  <a href="{% url 'app:delete_build' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="#" id="add-build-button" class="btn btn-secondary add-builds">Add More</a> <!-- id="add-inlineformsetname-button" -->
+    </div>
+      
+  {% endwith %}
+
+  {% with named_formsets.people as formset %}
+    {{ formset.management_form }}
+    <script type="text/html" id="people-template">  
+      <tr id="people-__prefix__" class= hide_all>
+        {% for fields in formset.empty_form.hidden_fields %}
+          {{ fields }}
+        {% endfor %}
+    
+        {% for fields in formset.empty_form.visible_fields %}
+          <td>{{fields}}</td>
+        {% endfor %}
+      </tr>
+    </script>
+    <div class="table-responsive card mt-4">
+      <div class="card-header card-header-secondary">
+        <h4 class="card-title">新增人員</h4>
+      </div>
+      <table class="table card-header">
+        <thead class="text-secondary">
+          <th>姓名 <span style="color: red;" class="required">*</span></th>
+          <th>共有人</th>
+          <th>Delete?</th>
+          <th>Custom Delete btn</th>
+        </thead>
+        <tbody id="item-people">  
+          {% for error in formset.non_form_errors %}
+            <span style="color: red">{{ error }}</span>
+          {% endfor %}
+          {% for formss in formset %}
+            {{ formss.management_form }}
+            <tr id="people-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+              {{ formss.id }}
+              {% for field in formss.visible_fields %}
+                <td>
+                  {{field}}
+                  {% for error in field.errors %}
+                    <span style="color: red">{{ error }}</span>
+                  {% endfor %}
+                  
+                  {% comment %} {{ field.DELETE }} {% endcomment %}
+                </td>
+              {% endfor %}
+
+
+              {% comment %} for delete {% endcomment %}
+              
+              {% if formss.instance.pk %}
+                <td>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{formss.instance.pk}}">
+                    Delete
+                </button>
+                
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">
+                                    Are You Sure You Want To Delete This?
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'app:delete_person' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="#" id="add-person-button" class="btn btn-secondary add-people">Add More</a> <!-- id="add-inlineformsetname-button" -->
+    </div>
+      
+  {% endwith %}
+
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+  </div>
+</form>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+
+<script>
+  $(document).ready(function() {
+    $('.add-lands').click(function(ev) {
+      ev.preventDefault();
+      var count = $('#item-lands').children().length;
+      var tmplMarkup = $('#lands-template').html();
+      var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+      $('#item-lands').append(compiledTmpl);
+      $('#id_lands-TOTAL_FORMS').attr('value', count+1);
+    });
+  });
+
+
+  $(document).ready(function() {
+    $('.add-builds').click(function(ev) {
+      ev.preventDefault();
+      var count = $('#item-builds').children().length;
+      var tmplMarkup = $('#builds-template').html();
+      var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+      $('#item-builds').append(compiledTmpl);
+      $('#id_builds-TOTAL_FORMS').attr('value', count+1);
+    });
+  });
+
+  $(document).ready(function() {
+    $('.add-people').click(function(ev) {
+      ev.preventDefault();
+      var count = $('#item-people').children().length;
+      var tmplMarkup = $('#people-template').html();
+      var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+      $('#item-people').append(compiledTmpl);
+      $('#id_people-TOTAL_FORMS').attr('value', count+1);
+    });
+  });
+</script>
+        
+{% endblock content %}

@@ -1,0 +1,22 @@
+/* static/css/styles.css */
+
+@font-face {
+  font-family: 'NotoSansTC';
+  src: url('/static/fonts/NotoSansTC-Medium.otf') format('opentype');
+  /* Add additional font weights and styles as needed */
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/static/fonts/Roboto-Medium.ttf') format('truetype');
+  /* Add additional font weights and styles as needed */
+}
+
+
+body {
+  font-family: 'NotoSansTC','Roboto', sans-serif;
+}
+
+h1, h2, h3, p {
+  font-family: 'NotoSansTC', sans-serif;
+}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <table class="table text-center align-middle">
+    <thead>
+      <tr>
+        <th scope="col" class="align-middle">序號</th>
+        <th scope="col" class="align-middle">案號</th>
+        <th scope="col" class="align-middle">兩週內<br>應買止日</th>
+        <th scope="col" class="align-middle">負責人</th>
+        <th scope="col" class="align-middle">最終判定</th>
+        <th scope="col" class="align-middle">執行結果</th>
+        <th scope="col" class="align-middle">優購結果</th>
+        <th scope="col" class="align-middle">標的編號</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">0473</th>
+        <td>112年度司執字第031506號 (孔股)<br>➥新竹縣湖口鄉松江二街16號5(5層)</td>
+        <td>11天後</td>
+        <td>賈桂琳	</td>
+        <td>3拍進場</td>
+        <td>第三人搶標	</td>
+        <td>遭優購</td>
+        <td>YF001</td>
+      </tr>
+    </tbody>
+  </table> 
+</div>
+
+
+<h2>Item List</h2>
+  <ul>
+    {% for item in object_list %}
+    <a href="{% url 'item_detail' item.id %}">
+      <li>{{ item.name }} - {{ item.description }}-{{item.id}}</li>
+    </a>
+    <a href="{% url 'item_update' item.id %}">
+      update
+    </a>
+    <a href="{% url 'item_delete' item.id %}">
+      Delete
+    </a>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'item_create' %}">Create New Item</a>
+{% endblock content %}

@@ -1,0 +1,12 @@
+<!-- item_form.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{% if object %}Update{% else %}Create{% endif %} Item</h2>
+  <form method="post" action="{% if object %}{% url 'item_update' pk=object.pk %}{% else %}{% url 'item_create' %}{% endif %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if object %}Update{% else %}Create{% endif %} Item</button>
+  </form>
+  <a href="{% url 'item_list' %}">Back to Item List</a>
+{% endblock %}

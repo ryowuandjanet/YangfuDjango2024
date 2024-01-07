@@ -1,0 +1,55 @@
+<style>
+  .table th,
+  .table td {
+    vertical-align: middle;/* 垂直居中 */
+    text-align: center; /* 水平居中 */
+    font-size: 16pt;
+  }
+  .landTable th {
+    background-color:#D5F5E3;
+  }
+  .landTable td {
+    color:blue;
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  .button-container button {
+    margin: 5px;
+  }
+</style>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <div class="mx-2">
+        <div class="fs-2">土地資訊</div>
+      </div>
+      <div class="button-container">
+        <button class="btn btn-primary">更新</button>
+        <button class="btn btn-danger">刪除</button>
+      </div>
+    </div>
+    <div class="ml-auto fs-2">合計：8.83 m<sup>2</sup>(2.67 坪)</div>
+  </div>
+  
+  <table class="landTable table table-bordered border-dark border border-2">
+    <thead>
+      <tr>
+        <th scope="col">地號</th>
+        <th scope="col">地坪(平方公尺)</th>
+        <th scope="col">持分</th>
+        <th scope="col">地坪持分(平方公尺)</th>
+      </tr>
+      <tr>
+        <td>中興段46-1</td>
+        <td>264.81</td>
+        <td>1/30</td>
+        <td>8.83</td>
+      </tr>
+    </thead>
+  
+  </table>
+
+</div>

@@ -1,0 +1,55 @@
+<style>
+  .table th,
+  .table td {
+    vertical-align: middle;/* 垂直居中 */
+    text-align: center; /* 水平居中 */
+    font-size: 16pt;
+  }
+  .baseTable th {
+    background-color:#FCF3CF;
+  }
+  .baseTable td {
+    color:blue;
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  .button-container button {
+    margin: 5px;
+  }
+</style>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <div class="mx-2">
+        <div class="fs-2">基本資料</div>
+      </div>
+      <div class="button-container">
+        <button class="btn btn-primary">更新</button>
+        <button class="btn btn-danger">刪除</button>
+      </div>
+    </div>
+    <div class="ml-auto fs-2"></div>
+  </div>
+  <table class="baseTable table table-bordered border-dark border border-2">
+    <thead>
+      <tr>
+        <th scope="col">案號</th>
+        <td>112年度司執字第031506號 (孔股)</td>
+        <th scope="col" rowspan="2">債務人</th>
+        <td rowspan="2">傅一峯</td>
+        <th scope="col" rowspan="2">債權人</th>
+        <td rowspan="2">鉅鈦開發有限公司<br>0921526137</td>
+        <th scope="col" rowspan="2">案件狀態</th>
+        <td rowspan="2">在途</td>
+      </tr>
+      <tr>
+        <th scope="col">地址</th>
+        <td>303 新竹縣湖口鄉松江二街16號5(5層)</td>
+      </tr>
+    </thead>
+  
+  </table>
+</div>

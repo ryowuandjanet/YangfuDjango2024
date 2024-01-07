@@ -1,0 +1,64 @@
+<style>
+  .table th,
+  .table td {
+    vertical-align: middle;/* 垂直居中 */
+    text-align: center; /* 水平居中 */
+    font-size: 16pt;
+  }
+  .buildTable th {
+    background-color:#D6EAF8;
+  }
+  .buildTable td {
+    color:blue;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  .button-container button {
+    margin: 5px;
+    
+  }
+</style>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <div class="mx-2">
+        <div class="fs-2">建物資訊</div>
+      </div>
+      <div class="button-container">
+        <button class="btn btn-primary">更新</button>
+        <button class="btn btn-danger">刪除</button>
+      </div>
+    </div>
+    <div class="ml-auto fs-2">合計：42.19 m<sup>2</sup>(12.76 坪)</div>
+  </div>
+  <table class="buildTable table table-bordered border-dark border border-2">
+    <thead>
+      <tr>
+        <th scope="col" rowspan="2">建號</th>
+        <th scope="col" rowspan="2">建坪(平方公尺)</th>
+        <th scope="col" rowspan="2">持分</th>
+        <th scope="col" colspan="2">建坪持分(平方公尺)</th>
+        <th scope="col">使用分區：第一類大廈</th>
+      </tr>
+      <tr>
+        <th scope="col">原</th>
+        <th scope="col">計算後</th>
+        <th scope="col">建物型/使用</th>
+      </tr>
+      <tr>
+        <td>中興段1579</td>
+        <td>84.38</td>
+        <td>1/3</td>
+        <td>28.13</td>
+        <td>7.13</td>
+        <td>公寓-5樓含以下無電梯</td>
+      </tr>
+    </thead>
+  
+  </table>
+
+</div>
